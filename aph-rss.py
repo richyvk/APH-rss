@@ -1,9 +1,22 @@
+import os
 import datetime
 import urllib2
 import PyRSS2Gen
 from ftplib import FTP
 from bs4 import BeautifulSoup
-import config #config contains ftp login details
+import config
+
+#Config setup example (save as config.py in APH-rss root dir):
+#
+#run_path = '/PATH/TO/APH-rss DIR/'
+#
+#ftp_url = 'ftp.yourdomain.com'
+#ftp_username = 'YOUR_FTP_USERNAME'
+#ftp_password = 'YOUR_FTP_PASSWORD'
+#ftp_target = '/PATH/TO/REMOTE/FTP/DIR/FOR/XML/FILE/'
+
+#change directory to APH-rss root dir, for Pythonanywhere scheduled task only
+os.chdir(config.run_path)
 
 #This section scrapes the latest updates to bills section of the APH homepage,
 #http://www.aph.gov.au/, extracting the update date, bill name and bill
@@ -87,4 +100,3 @@ ftp.cwd(config.ftp_target)
 ftp.storbinary('STOR '+'feed.xml', open('feed.xml', 'rb'))
 print "File FTPed successfully"
 ftp.quit()
-
