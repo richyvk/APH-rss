@@ -1,7 +1,9 @@
 import datetime
 import urllib2
 import PyRSS2Gen
+from ftplib import FTP
 from bs4 import BeautifulSoup
+import config #config contains ftp login details
 
 #This section scrapes the latest updates to bills section of the APH homepage,
 #http://www.aph.gov.au/, extracting the update date, bill name and bill
@@ -74,3 +76,15 @@ rss = PyRSS2Gen.RSS2(title = "Richard's APH Bills RSS",
         items = bill_items)
 
 rss.write_xml(open("feed.xml", "w"))
+
+#This section uploads the feed file via FTP
+
+#establish ftp connection and login
+ftp = FTP(config.ftp_url)
+ftp.login(config.ftp_username,config.ftp_password)
+
+ftp.cwd(config.ftp_target)
+ftp.storbinary('STOR '+'feed.xml', open('feed.xml', 'rb'))
+print "File FTPed successfully"
+ftp.quit()
+
