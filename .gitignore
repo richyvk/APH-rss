@@ -1,4 +1,4 @@
 *.pyc
 config.py
-*.txt
+bills_output.txt
 *.xml
