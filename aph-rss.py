@@ -32,7 +32,7 @@ source = urllib2.urlopen("http://www.aph.gov.au/").read()
 #Create BeutifulSoup object of APH site
 soup = BeautifulSoup(source)
 
-#Locate Bills seciton of APH page
+#Locate Bills section of APH page
 bills_div = soup.find(id="tabBills")
 bills_table_rows = bills_div.find_all('tr')
 bills_table_rows.reverse()
@@ -56,6 +56,12 @@ for item in bills_table_rows[:-1]:
 
 #This section converts the scraped data in the text file into an RSS2 feed using
 #PyRSS2Gen.
+
+
+#set date for RSS lastBuildDate variable
+lastModified = os.path.getmtime('bills_output.txt')
+lastModifiedDatetime = datetime.datetime.fromtimestamp(lastModified)
+print "Assigning last modified date as: {0}".format(lastModifiedDatetime)
 
 #open and read the txt file; add each line to a list object
 bills_list = open('bills_output.txt').read().splitlines()
@@ -85,7 +91,7 @@ bill_items.reverse()
 rss = PyRSS2Gen.RSS2(title = "Richard's APH Bills RSS",
         link = "https://github.com/richyvk/APH-RSS",
         description = "An RSS feed of Bill updates from the APH homepage",
-        lastBuildDate = datetime.datetime.now(),
+        lastBuildDate = lastModifiedDatetime,
         items = bill_items)
 
 rss.write_xml(open("feed.xml", "w"))
