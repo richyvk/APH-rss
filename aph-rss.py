@@ -1,9 +1,7 @@
 import os
-import datetime
 import urllib2
-import PyRSS2Gen
-from ftplib import FTP
 from bs4 import BeautifulSoup
+from rss import run_rss, run_ftp
 import config
 
 #Config setup example (save as config.py in APH-rss root dir):
@@ -15,16 +13,20 @@ import config
 #ftp_password = 'YOUR_FTP_PASSWORD'
 #ftp_target = '/PATH/TO/REMOTE/FTP/DIR/FOR/XML/FILE/'
 
-#change directory to APH-rss root dir, for Pythonanywhere scheduled task only
+#change directory to APH-rss root dir, required for Pythonanywhere scheduled task only
 os.chdir(config.run_path)
+
+#Create variable to trigger RSS update
+new_bills_added = None
+
+#convert txt file storing existing bills to a list
+with open('bills_output.txt', 'a+') as f:
+    existing_bills = f.read().splitlines()
 
 #This section scrapes the latest updates to bills section of the APH homepage,
 #http://www.aph.gov.au/, extracting the update date, bill name and bill
 #homepage URL, and adding this information to a text file for later convertion
 #to an RSS feed.
-
-#open or create the txt file, and add each line to a list object
-existing_bills = open('bills_output.txt', 'a+').read().splitlines()
 
 #Open and read the APH homepage
 source = urllib2.urlopen("http://www.aph.gov.au/").read()
@@ -47,62 +49,22 @@ for item in bills_table_rows[:-1]:
                                             bill_name.encode('utf-8'),
                                             bill_link.encode('utf-8'))
 
-    #Add Bill string to bill list if not already present and write resulting
-    #list back to txt file
+    #Add Bill string to existing bills list if not already present
     if bill_string not in existing_bills:
         print "Adding new bill: {0}".format(bill_name.encode('utf-8'))
-        with open('bills_output.txt', 'a') as f:
-            f.write('{0}\n'.format(bill_string))
+        existing_bills.append(bill_string)
+        new_bills_added = True
 
-#This section converts the scraped data in the text file into an RSS2 feed using
-#PyRSS2Gen.
+with open('bills_output.txt', 'w') as f:
+    for item in existing_bills:
+        f.write('{0}\n'.format(item))
 
 
-#set date for RSS lastBuildDate variable
-lastModified = os.path.getmtime('bills_output.txt')
-lastModifiedDatetime = datetime.datetime.fromtimestamp(lastModified)
-print "Assigning last modified date as: {0}".format(lastModifiedDatetime)
-
-#open and read the txt file; add each line to a list object
-bills_list = open('bills_output.txt').read().splitlines()
-
-bill_items = []
-
-#split each Bill string into parts and create PyRSS2Gem RSSItem objects from
-#them
-for bill in bills_list:
-    #Extract relevant bits of each Bill string
-    date = bill[:bill.find(':')]
-    bill_url = bill[bill.find('http'):]
-    bill_title = bill[bill.find(':')+2:bill.find('http')-2]
-
-    #convert extracts into RRS items
-    item = PyRSS2Gen.RSSItem(title = bill_title,
-            link = bill_url,
-            description = bill_title + " - bill homepage updated " + date)
-
-    #Append all items to a list
-    bill_items.append(item)
-
-#List needs to be reversed to get newest Bills to the top
-bill_items.reverse()
-
-#Create the RSS feed and write it to file
-rss = PyRSS2Gen.RSS2(title = "Richard's APH Bills RSS",
-        link = "https://github.com/richyvk/APH-RSS",
-        description = "An RSS feed of Bill updates from the APH homepage",
-        lastBuildDate = lastModifiedDatetime,
-        items = bill_items)
-
-rss.write_xml(open("feed.xml", "w"))
-
-#This section uploads the feed file via FTP
-
-#establish ftp connection and login
-ftp = FTP(config.ftp_url)
-ftp.login(config.ftp_username,config.ftp_password)
-
-ftp.cwd(config.ftp_target)
-ftp.storbinary('STOR '+'feed.xml', open('feed.xml', 'rb'))
-print "File FTPed successfully"
-ftp.quit()
+#This section runs the RSS update and FTP functions if new bills are added
+if new_bills_added:
+    print "Updating RSS"
+    run_rss()
+    run_ftp()
+    print "RSS update complete"
+else:
+    print "No new bills added, RSS up to date"
