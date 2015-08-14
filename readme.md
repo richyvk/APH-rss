@@ -1,3 +1,6 @@
+APH_RSS feed generator
+======================
+
 APH-rss creates and RSS feed from the Australian Parliament site's Latest updates to Bills section (under the Bill stab at http://www.aph.gov.au/).
 
 The feed offers alerts on when change are made to a Bill's homepage, effectively allowing for the tracking of any changes made to a Bill currently before the Australian Parliament, e.g. intorduced, debated, passed.
@@ -5,20 +8,18 @@ The feed offers alerts on when change are made to a Bill's homepage, effectively
 I creaetd this feed because I couldn't fidn any free source that offered an alerting service of this kind.
 
 To use this feed:
-=================
+-----------------
 
 1. Clone this repo to your local computer
 2. Create a text file named config.py and place it in the APH-rss directory. This contains ftp login, path where you want the rss file to be uploaded to on your remote site. See example content below:
+ 
+   ### Example content of config.py
+   run_path = '/PATH/TO/APH-rss DIR/'
 
-Example content of config.py
-----------------------------
-
-run_path = '/PATH/TO/APH-rss DIR/'
-
-ftp_url = 'ftp.yourdomain.com'
-ftp_username = 'YOUR_FTP_USERNAME'
-ftp_password = 'YOUR_FTP_PASSWORD'
-ftp_target = '/PATH/TO/REMOTE/FTP/DIR/FOR/XML/FILE/'
+   ftp_url = 'ftp.yourdomain.com'
+   ftp_username = 'YOUR_FTP_USERNAME'
+   ftp_password = 'YOUR_FTP_PASSWORD'
+   ftp_target = '/PATH/TO/REMOTE/FTP/DIR/FOR/XML/FILE/'
 
 3. From the APH-rss root directory run the command python APH-rss.py to run the script and create the feed
 
