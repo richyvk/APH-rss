@@ -1,17 +1,8 @@
 import os
 import urllib2
 from bs4 import BeautifulSoup
-from rss import run_rss, run_ftp
+from rss import create_feed, ftp_feed
 import config
-
-#Config setup example (save as config.py in APH-rss root dir):
-#
-#run_path = '/PATH/TO/APH-rss DIR/'
-#
-#ftp_url = 'ftp.yourdomain.com'
-#ftp_username = 'YOUR_FTP_USERNAME'
-#ftp_password = 'YOUR_FTP_PASSWORD'
-#ftp_target = '/PATH/TO/REMOTE/FTP/DIR/FOR/XML/FILE/'
 
 #change directory to APH-rss root dir, required for Pythonanywhere scheduled task only
 os.chdir(config.run_path)
@@ -63,8 +54,8 @@ with open('bills_output.txt', 'w') as f:
 #This section runs the RSS update and FTP functions if new bills are added
 if new_bills_added:
     print "Updating RSS"
-    run_rss()
-    run_ftp()
+    create_feed()
+    ftp_feed()
     print "RSS update complete"
 else:
     print "No new bills added, RSS up to date"

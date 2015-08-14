@@ -4,7 +4,7 @@ import PyRSS2Gen
 from ftplib import FTP
 import config
 
-def run_rss():
+def create_feed():
     #set date for RSS lastBuildDate variable
     lastModified = os.path.getmtime('bills_output.txt')
     lastModifiedDatetime = datetime.datetime.fromtimestamp(lastModified)
@@ -26,7 +26,8 @@ def run_rss():
         #convert extracts into RRS items
         item = PyRSS2Gen.RSSItem(title = bill_title,
                 link = bill_url,
-                description = bill_title + " - bill homepage updated " + date)
+                description = bill_title + " - bill homepage updated " + date,
+                pubDate = date)
 
         #Append all items to a list
         bill_items.append(item)
@@ -43,7 +44,7 @@ def run_rss():
 
     rss.write_xml(open("feed.xml", "w"))
 
-def run_ftp():
+def ftp_feed():
     #establish ftp connection and login
     ftp = FTP(config.ftp_url)
     ftp.login(config.ftp_username,config.ftp_password)
