@@ -17,12 +17,12 @@ To use this feed:
 Example config.py
 -----------------
 
-run_path = '/PATH/TO/APH-rss DIR/'
+    run_path = '/PATH/TO/APH-rss DIR/'
 
-ftp_url = 'ftp.yourdomain.com'
-ftp_username = 'YOUR_FTP_USERNAME'
-ftp_password = 'YOUR_FTP_PASSWORD'
-ftp_target = '/PATH/TO/REMOTE/FTP/DIR/FOR/XML/FILE/'
+    ftp_url = 'ftp.yourdomain.com'
+    ftp_username = 'YOUR_FTP_USERNAME'
+    ftp_password = 'YOUR_FTP_PASSWORD'
+    ftp_target = '/PATH/TO/REMOTE/FTP/DIR/FOR/XML/FILE/'
 
 Requirements
 ------------
