@@ -1,11 +1,11 @@
 APH_RSS feed generator
 ======================
 
-APH-rss creates and RSS feed from the Australian Parliament site's Latest updates to Bills section (under the Bill stab at http://www.aph.gov.au/).
+APH-rss creates an RSS feed from the Australian Parliament site's Latest updates to Bills section (under the Bill stab at http://www.aph.gov.au/).
 
-The feed offers alerts on when change are made to a Bill's homepage, effectively allowing for the tracking of any changes made to a Bill currently before the Australian Parliament, e.g. intorduced, debated, passed.
+The feed provides a way of receiving alerts when changes are made to a Bill's homepage, effectively allowing for the tracking of any changes made to a Bill currently before the Australian Parliament, e.g. intorduced, debated, passed.
 
-I creaetd this feed because I couldn't fidn any free source that offered an alerting service of this kind.
+I created this feed because I couldn't find any free source that offered an alerting service of this kind.
 
 To use this feed:
 -----------------
