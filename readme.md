@@ -1,6 +1,16 @@
 APH_RSS feed generator
 ======================
 
+Update - 9/12/2015
+------------------
+
+I changed the link the Bill link URL from the original mirrored Bill homepage on the APH site to the Parlinfo Search Bill Homepage. 
+
+I prefer this page, it has the samwe information but the layout is nicer I think, and I suspect it will be less likely to change over time.
+
+Usage
+-----
+
 APH-rss creates an RSS feed from the Australian Parliament site's Latest updates to Bills section (under the Bill stab at http://www.aph.gov.au/).
 
 The feed provides a way of receiving alerts when changes are made to a Bill's homepage, effectively allowing for the tracking of any changes made to a Bill currently before the Australian Parliament, e.g. intorduced, debated, passed.
