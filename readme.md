@@ -1,6 +1,13 @@
 APH_RSS feed generator
 ======================
 
+Update - 30/09/2016
+-------------------
+
+The APH site was revamped recently. I've fixed the main script so it now works with the new APH site, scraping the Bills info form this page: http://www.aph.gov.au/Parliamentary_Business/Bills_Legislation
+
+In their wisdom APH have decided to truncate long Bill titles on the page and unfortunately I'm stuck with using those truncated titles for now. Apart from that issue everything else remains the same as with the previous version.
+
 Update - 9/12/2015
 ------------------
 
